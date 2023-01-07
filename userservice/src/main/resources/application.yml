@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: user-service
+  redis:
+    url: redis://localhost:6379
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/userdb
+    username: postgres
+    password: abc
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+
+    properties:
+      hibernate:
+        format_sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  servlet:
+    context-path: /user-service
+  port: 5050
+
+app:
+  jwt:
+    secret: dsfhdsfhdsufudsfhuidshfidshfucdf
+    expiration: 3600000 # 1 hour
+  authentication:
+    google:
+      client-id: 631068527610-hbqcr35bk4uh9v6dokjkscgcp131c23q.apps.googleusercontent.com
+      client-secret: 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
+      redirect-uri: http://localhost:5050/user-service/users/google/authorize
+      auth_uri: https://accounts.google.com/o/oauth2/auth
+      token_uri: https://oauth2.googleapis.com/token https://betterprogramming.pub/log-in-with-the-google-oauth-demo-app-9e7d0e801c29
+

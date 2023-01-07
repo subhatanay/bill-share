@@ -1,10 +1,15 @@
 package com.subhadev.billshare.userservice.entity;
 
 
+import com.subhadev.billshare.userservice.dto.UserRegisterRequestDTO;
+import com.subhadev.billshare.userservice.dto.UserStatusDTO;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,8 +19,9 @@ import java.util.Set;
 @Entity(name = "users")
 public class UserEntity extends AuditEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private String userId;
+    @GenericGenerator(name="uuid2",strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
+    private String  userId;
     @Column(name = "email",length = 255, unique = true, nullable = false)
     private String emailId;
     @Column(name= "name" , nullable = true)
@@ -29,5 +35,21 @@ public class UserEntity extends AuditEntity {
                 joinColumns = @JoinColumn(name = "user_id"),
                 inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleEntity> userRoles;
+
+
+    public static UserEntity from(UserRegisterRequestDTO userRegisterRequestDTO, UserStatusDTO userStatusDTO) {
+        UserEntity userEntity =  UserEntity.builder()
+                .emailId(userRegisterRequestDTO.getEmail())
+                .name(userRegisterRequestDTO.getFullName())
+                .status(UserStatus.from(userStatusDTO))
+
+                .build();
+
+        userEntity.setCreatedTime(new Date());
+        userEntity.setLastUpdatedTime(new Date());
+        return userEntity;
+    }
+
+
 
 }
