@@ -5,44 +5,44 @@ import com.subhadev.billshare.userservice.exception.InvalidEmailOTPException;
 import com.subhadev.billshare.userservice.exception.UserAlreadyExistsException;
 import com.subhadev.billshare.userservice.exception.UserNotFoundException;
 import com.subhadev.billshare.userservice.exception.ValidationException;
-import com.subhadev.billshare.userservice.facade.UserFacade;
+import com.subhadev.billshare.userservice.facade.UserOnboardingFacade;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/users/email")
 public class UserEmailAuthenticationController {
 
-    private UserFacade userFacade;
+    private UserOnboardingFacade userOnboardingFacade;
 
-    public UserEmailAuthenticationController(UserFacade userFacade) {
-        this.userFacade = userFacade;
+    public UserEmailAuthenticationController(UserOnboardingFacade userOnboardingFacade) {
+        this.userOnboardingFacade = userOnboardingFacade;
     }
 
-    @RequestMapping(path = "/email/register", method = RequestMethod.POST)
+    @RequestMapping(path = "/register", method = RequestMethod.POST)
     public ResponseEntity registerUserByEmail(@RequestBody UserRegisterRequestDTO userRegisterRequestDTO) {
         userRegisterRequestDTO.validate();
 
-        UserGetResponseDTO userGetResponseDTO = userFacade.registerUserByEmail(userRegisterRequestDTO);
+        UserGetResponseDTO userGetResponseDTO = userOnboardingFacade.registerUserByEmail(userRegisterRequestDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userGetResponseDTO);
     }
 
-    @RequestMapping(path="/email/login", method = RequestMethod.POST)
+    @RequestMapping(path="/login", method = RequestMethod.POST)
     public ResponseEntity loginUserByEmail(@RequestBody UserLoginRequestDTO userLoginRequestDTO) {
         userLoginRequestDTO.validate();
 
-        UserGetResponseDTO userGetResponseDTO = userFacade.loginUserByEmail(userLoginRequestDTO);
+        UserGetResponseDTO userGetResponseDTO = userOnboardingFacade.loginUserByEmail(userLoginRequestDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(userGetResponseDTO);
     }
 
-    @RequestMapping(path="/email/verify-otp", method = RequestMethod.POST)
+    @RequestMapping(path="/verify-otp", method = RequestMethod.POST)
     public ResponseEntity authenticateUserByOTP(@RequestBody UserLoginOTPRequestDTO userLoginOTPRequestDTO) {
         userLoginOTPRequestDTO.validate();
 
-        UserGetResponseDTO userGetResponseDTO = userFacade.authenticateUserByEmailOTP(userLoginOTPRequestDTO);
+        UserGetResponseDTO userGetResponseDTO = userOnboardingFacade.authenticateUserByEmailOTP(userLoginOTPRequestDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(userGetResponseDTO);
     }

@@ -19,4 +19,12 @@ public class UserRegisterRequestDTO extends UserLoginRequestDTO implements Valid
         super.validate();
     }
 
+    public static UserRegisterRequestDTO from(UserGetResponseDTO userGetResponseDTO) {
+        UserRegisterRequestDTO userRegisterRequestDTO = new UserRegisterRequestDTO();
+        userRegisterRequestDTO.setFullName(userGetResponseDTO.getName());
+        userRegisterRequestDTO.setEmail(userGetResponseDTO.getEmailId());
+
+        return userRegisterRequestDTO;
+    }
+
 }

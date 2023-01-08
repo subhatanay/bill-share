@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-circular-references: true
   application:
     name: user-service
   redis:
@@ -29,9 +31,13 @@ app:
     expiration: 3600000 # 1 hour
   authentication:
     google:
-      client-id: 631068527610-hbqcr35bk4uh9v6dokjkscgcp131c23q.apps.googleusercontent.com
-      client-secret: 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
-      redirect-uri: http://localhost:5050/user-service/users/google/authorize
-      auth_uri: https://accounts.google.com/o/oauth2/auth
-      token_uri: https://oauth2.googleapis.com/token https://betterprogramming.pub/log-in-with-the-google-oauth-demo-app-9e7d0e801c29
+      client_id: 631068527610-hbqcr35bk4uh9v6dokjkscgcp131c23q.apps.googleusercontent.com
+      client_secret: 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
+      scope: "profile email openid"
+      redirect-uri: http://localhost:5050/user-service/users/google/authcallback
+      auth_uri: https://accounts.google.com/o/oauth2/auth?client_id={0}&redirect_uri={1}&scope={2}&response_type=code&access_type=offline&include_granted_scopes=true
+      token_uri: https://oauth2.googleapis.com/token
+      userinfo_uri: https://www.googleapis.com/oauth2/v1/userinfo
+
+
 

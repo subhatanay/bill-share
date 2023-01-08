@@ -11,6 +11,7 @@ import com.subhadev.billshare.userservice.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.util.Date;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -59,10 +60,46 @@ public class UserDaoServiceImpl implements UserDaoService {
     }
 
     @Override
+    public UserGetResponseDTO findUserByUserId(String userId) {
+        UserEntity userEntity = getUserByUserId(userId);
+        return UserGetResponseDTO
+                .builder()
+                .userId(userEntity.getUserId())
+                .name(userEntity.getName())
+                .emailId(userEntity.getEmailId())
+                .status(UserStatusDTO.from(userEntity.getStatus()))
+                .picture_url(userEntity.getProfilePic())
+                .roles(userEntity.getUserRoles().stream().map(RoleEntity::getRoleName).collect(Collectors.toList()))
+                .build();
+    }
+
+    @Override
+    public boolean isUserExistsByEmail(String email) {
+        return userRepository.existsByEmailId(email);
+    }
+
+    @Override
     public void updateUserStatus(String email, UserStatusDTO userStatusDTO) {
         UserEntity userEntity = getUserByEmail(email);
         userEntity.setStatus(UserStatus.from(userStatusDTO));
         this.userRepository.save(userEntity);
+    }
+
+    @Override
+    public UserGetResponseDTO updateUser(String userId, UserPatchRequestDTO userPatchRequestDTO) {
+        UserEntity userEntity = getUserByUserId(userId);
+        userEntity = userEntity.from(userPatchRequestDTO);
+        userRepository.save(userEntity);
+        return UserGetResponseDTO
+                .builder()
+                .userId(userEntity.getUserId())
+                .name(userEntity.getName())
+                .emailId(userEntity.getEmailId())
+                .status(UserStatusDTO.from(userEntity.getStatus()))
+                .picture_url(userEntity.getProfilePic())
+                .roles(userEntity.getUserRoles().stream().map(RoleEntity::getRoleName).collect(Collectors.toList()))
+                .build();
+
     }
 
     private UserEntity getUserByEmail(String email) {
@@ -70,6 +107,17 @@ public class UserDaoServiceImpl implements UserDaoService {
             throw new IllegalArgumentException("email can't be null");
         }
         Optional<UserEntity> userEntity  = userRepository.findByEmailId(email);
+        if (!userEntity.isPresent()) {
+            throw new UserNotFoundException("User not found");
+        }
+        return userEntity.get();
+    }
+
+    private UserEntity getUserByUserId(String userId) {
+        if (userId == null) {
+            throw new IllegalArgumentException("userid can't be null");
+        }
+        Optional<UserEntity> userEntity  = userRepository.findById(userId);
         if (!userEntity.isPresent()) {
             throw new UserNotFoundException("User not found");
         }
