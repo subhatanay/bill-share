@@ -1,0 +1,53 @@
+spring:
+  main:
+    allow-circular-references: true
+  application:
+    name: notification-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/notificationdb?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true
+    username: postgres
+    password: abc
+  jpa:
+      show-sql: true
+      generate-ddl : true
+      hibernate:
+        ddl-auto: create
+      properties:
+        hibernate:
+          format_sql: false
+      database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: notify-email-sender
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: itsme.subhajitghosh@gmail.com
+    password: ijnanvycihyeypzzy
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+          starttls:
+            enable : true
+
+server:
+  servlet:
+    context-path: /notification-service
+  port: 5051
+
+app:
+  kafka:
+    notificationTopic: notify-topic
+  notification:
+    email:
+      fromAddress: noreply@billshare.com
+      username: itsme.subhajitghosh@gmail.com
+      password: qkpussarjfbgtvcf

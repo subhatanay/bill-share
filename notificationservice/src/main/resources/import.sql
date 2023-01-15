@@ -1,0 +1,3 @@
+
+insert into notification_templates (created_time, last_updated_time, sender_type, template_subject, template_name, template_content, template_id) values (CURRENT_TIMESTAMP , CURRENT_TIMESTAMP , 0,'Welcome To Bill Share', 'WELCOME_USER_EMAIL',  'Welcome ${fullName} To Bill Share', 'generated_template_id1');
+insert into notification_templates (created_time, last_updated_time, sender_type, template_subject, template_name, template_content, template_id) values (CURRENT_TIMESTAMP , CURRENT_TIMESTAMP , 0,'Bill Share - Account Login OTP', 'OTP_EMAIL', 'Here is the otp ${totp}. This otp will be valid for 5 minutes', 'generated_template_id2');

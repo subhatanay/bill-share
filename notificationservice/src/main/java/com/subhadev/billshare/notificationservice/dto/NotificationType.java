@@ -1,4 +1,4 @@
-package com.subhadev.billshare.userservice.dto;
+package com.subhadev.billshare.notificationservice.dto;
 
 import java.util.Arrays;
 import java.util.List;

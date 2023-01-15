@@ -44,7 +44,7 @@ public class UserOnboardingFacade {
         logger.info("User Login request using Email");
         UserGetResponseDTO userGetResponseDTO = this.userDaoService.findUserByEmail(userLoginRequestDTO.getEmail());
         String userTOPT = this.otpService.generateAndStoreTOPT(userGetResponseDTO.getUserId());
-        this.notificationService.sendNotificationEvent(userGetResponseDTO.getEmailId(),NotificationType.USER_ON_BOARD_SUCCESS_BY_EMAIL, Map.of("fullName", userGetResponseDTO.getName(),"totp", userTOPT));
+        this.notificationService.sendNotificationEvent(userGetResponseDTO.getEmailId(),NotificationType.USER_OTP_EMAIL, Map.of("totp", userTOPT));
 
         return UserGetResponseDTO.builder().userId(userGetResponseDTO.getUserId()).build();
     }

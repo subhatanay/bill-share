@@ -14,11 +14,15 @@ spring:
     show-sql: false
     hibernate:
       ddl-auto: update
-
     properties:
       hibernate:
         format_sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  kafka:
+    producer:
+      bootstrap-servers: 127.0.0.1:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 server:
   servlet:
@@ -38,6 +42,8 @@ app:
       auth_uri: https://accounts.google.com/o/oauth2/auth?client_id={0}&redirect_uri={1}&scope={2}&response_type=code&access_type=offline&include_granted_scopes=true
       token_uri: https://oauth2.googleapis.com/token
       userinfo_uri: https://www.googleapis.com/oauth2/v1/userinfo
+  kafka:
+    notificationTopic: notify-topic
 
 
 
