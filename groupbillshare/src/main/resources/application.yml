@@ -1,0 +1,34 @@
+spring:
+  main:
+    allow-circular-references: true
+  application:
+    name: groupbill-service
+  redis:
+    url: redis://localhost:6379
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/userdb
+    username: postgres
+    password: abc
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  servlet:
+    context-path: /groupbill-service
+  port: 5052
+
+
+app:
+  jwt:
+    secret: dsfhdsfhdsufudsfhuidshfidshfucdf
+    expiration: 3600000 # 1 hour
+
+
+
