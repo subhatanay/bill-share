@@ -10,7 +10,6 @@ import org.springframework.data.redis.core.RedisHash;
 @NoArgsConstructor
 @Builder
 public class OtpEntity {
-
     private String id;
     private String otp;
 }

@@ -14,3 +14,8 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  redis-cli:
+    image: redisuniversity/ru101-lab
+    container_name: redis-cli
+    ports:
+      - "6379:6379"
