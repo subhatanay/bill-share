@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface GroupUsersRepository extends JpaRepository<GroupUsersEntity, String> {
 
@@ -36,4 +38,7 @@ public interface GroupUsersRepository extends JpaRepository<GroupUsersEntity, St
     @Transactional
     @Query(value = "UPDATE group_users SET isAdmin=?3 WHERE groupInfo.groupId=?1 AND userInfo.userId=?2")
     void updateGroupUserAdmin(String groupId, String userId, boolean isAdmin);
+
+    @Query(value = "SELECT count(gu)  from group_users gu where gu.groupInfo.groupId=?1 and gu.userInfo.userId IN ?2 ")
+    int countUsersUnderGroup(String groupId, List<String> userIds);
 }

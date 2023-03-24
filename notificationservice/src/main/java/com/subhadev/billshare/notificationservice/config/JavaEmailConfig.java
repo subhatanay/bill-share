@@ -11,7 +11,6 @@ import java.util.Properties;
 
 @Configuration
 public class JavaEmailConfig {
-
     @Value("${app.notification.email.username}")
     private String emailUsername;
 

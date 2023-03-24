@@ -14,10 +14,17 @@ import javax.persistence.*;
 public class PaymentTransaction extends AuditEntity {
     @Id
     @GenericGenerator(name="uuid2",strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
     private String paymentId;
+
+    private String currency;
 
     private PaymentType paymentType;
     private Double amount;
+
+    @ManyToOne
+    @JoinColumn(name="group_id",referencedColumnName = "groupId")
+    private GroupEntity groupEntity;
 
     @ManyToOne
     @JoinColumn(name="payment_from",referencedColumnName = "userId")
@@ -27,7 +34,7 @@ public class PaymentTransaction extends AuditEntity {
     @JoinColumn(name="payment_to",referencedColumnName = "userId")
     private UserEntity toUser;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name="expense_id",referencedColumnName = "expenseId")
     private ExpenseEntity expenseDetails;
 }

@@ -53,8 +53,7 @@ public class GroupOnboardFacade {
                 throw new ForbiddenException("Current User not allowed to remove group. User needs to be group admin.");
             }
         }
-
-         groupUsersPOSTRequestDTO.getUsers().stream().forEach(user -> {
+        groupUsersPOSTRequestDTO.getUsers().stream().forEach(user -> {
              if (user.getUserId() == null) {
                  UserGetResponseDTO userGetResponseDTO;
                  try {
@@ -66,9 +65,9 @@ public class GroupOnboardFacade {
                  }
                  user.setUserId(userGetResponseDTO.getUserId());
              }
-         });
-         logger.info(groupUsersPOSTRequestDTO.getUsers().size() + " user going to add  under groupId " + groupId);
-         groupService.addUsersToGroup(groupId,groupUsersPOSTRequestDTO);
+        });
+        logger.info(groupUsersPOSTRequestDTO.getUsers().size() + " user going to add  under groupId " + groupId);
+        groupService.addUsersToGroup(groupId,groupUsersPOSTRequestDTO);
         logger.info("Users successfully added to group " + groupId);
     }
 

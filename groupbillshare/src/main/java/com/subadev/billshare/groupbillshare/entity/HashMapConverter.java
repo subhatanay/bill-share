@@ -11,14 +11,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HashMapConverter implements AttributeConverter<Map<String, Object>, String> {
+public class HashMapConverter implements AttributeConverter<SettlementDetails, String> {
 
     private static Logger logger = LoggerFactory.getLogger(HashMapConverter.class);
 
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public String convertToDatabaseColumn(Map<String, Object> customerInfo) {
+    public String convertToDatabaseColumn(SettlementDetails customerInfo) {
 
         String customerInfoJson = null;
         try {
@@ -31,12 +31,11 @@ public class HashMapConverter implements AttributeConverter<Map<String, Object>,
     }
 
     @Override
-    public Map<String, Object> convertToEntityAttribute(String customerInfoJSON) {
+    public SettlementDetails convertToEntityAttribute(String customerInfoJSON) {
 
-        Map<String, Object> customerInfo = null;
+        SettlementDetails customerInfo = null;
         try {
-            customerInfo = objectMapper.readValue(customerInfoJSON,
-                    new TypeReference<HashMap<String, Object>>() {});
+            customerInfo = objectMapper.readValue(customerInfoJSON, new TypeReference<SettlementDetails>() {});
         } catch (final IOException e) {
             logger.error("JSON reading error", e);
         }

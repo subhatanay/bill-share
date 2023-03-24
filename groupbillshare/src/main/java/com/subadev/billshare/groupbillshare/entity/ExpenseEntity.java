@@ -5,7 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Map;
 
 @Getter
@@ -16,6 +16,7 @@ import java.util.Map;
 @Entity(name="expenses")
 public class ExpenseEntity extends AuditEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
     @GenericGenerator(name="uuid2",strategy = "uuid2")
     private String expenseId;
     @ManyToOne
@@ -29,8 +30,8 @@ public class ExpenseEntity extends AuditEntity {
     private ExpenseType expenseType;
     private Date expenseDate;
 
-    @Column(name = "expense_details", length = 2000)
+    @Column(name = "expense_details", columnDefinition = "text")
     @Convert(converter = HashMapConverter.class)
-    private Map<String, Object> expenseDetails;
+    private SettlementDetails expenseDetails;
 
 }
